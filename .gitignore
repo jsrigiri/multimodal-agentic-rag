@@ -1,0 +1,88 @@
+# ----------------------------
+# Python
+# ----------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# ----------------------------
+# IDE / Editor
+# ----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# ----------------------------
+# Data files (VERY IMPORTANT)
+# ----------------------------
+data/raw/*
+data/storage/*
+data/*.csv
+data/*.parquet
+
+# Keep folder structure
+!data/raw/.gitkeep
+!data/storage/.gitkeep
+
+# ----------------------------
+# Models / embeddings / vector DB
+# ----------------------------
+*.bin
+*.pt
+*.onnx
+*.model
+*.pkl
+
+# ChromaDB / vector store artifacts
+chroma/
+*.db
+
+# ----------------------------
+# Logs
+# ----------------------------
+*.log
+
+# ----------------------------
+# Environment variables / secrets
+# ----------------------------
+.env
+.env.*
+
+# ----------------------------
+# Streamlit
+# ----------------------------
+.streamlit/
+
+# ----------------------------
+# Pytest / coverage
+# ----------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ----------------------------
+# Jupyter
+# ----------------------------
+.ipynb_checkpoints/
+
+# ----------------------------
+# Build / packaging
+# ----------------------------
+build/
+dist/
+*.egg-info/
+
+# ----------------------------
+# OS files
+# ----------------------------
+Thumbs.db
