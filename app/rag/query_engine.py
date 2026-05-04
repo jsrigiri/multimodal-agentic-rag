@@ -11,26 +11,39 @@ def ask_question(question: str):
 
     if index is None:
         return {
-            "answer": "No documents have been indexed yet. Please upload a PDF, CSV, TXT, or Markdown file first.",
+            "answer": "No documents have been indexed yet. Please upload a PDF, CSV, TXT, Markdown, or image file first.",
             "sources": [],
         }
 
-    query_engine = index.as_query_engine(
-        similarity_top_k=3,
-        response_mode="compact",
-    )
-
-    response = query_engine.query(question)
+    retriever = index.as_retriever(similarity_top_k=3)
+    retrieved_nodes = retriever.retrieve(question)
 
     sources = []
-    if hasattr(response, "source_nodes"):
-        for node in response.source_nodes:
-            sources.append({
+    context_parts = []
+
+    for node_with_score in retrieved_nodes:
+        node = node_with_score.node
+        text = node.get_content()
+
+        context_parts.append(text)
+
+        sources.append(
+            {
                 "source": node.metadata.get("source", "unknown"),
-                "text": node.text[:300],
-            })
+                "text": text[:300],
+                "score": float(node_with_score.score or 0.0),
+            }
+        )
+
+    if not context_parts:
+        return {
+            "answer": "I could not find relevant information in the indexed documents.",
+            "sources": [],
+        }
+
+    answer = "\n\n".join(context_parts[:2])
 
     return {
-        "answer": str(response),
+        "answer": answer,
         "sources": sources,
     }
