@@ -16,28 +16,30 @@
 
 ## 📌 Overview
 
-This project implements a **production-grade multimodal agentic RAG platform** combining:
+This project implements a **production-grade multimodal agentic RAG platform** capable of answering questions over:
 
-- Document ingestion (PDF, CSV, TXT, Images)  
-- LlamaIndex-based retrieval pipeline  
-- LangGraph agent routing system  
-- Multi-tool execution (RAG, CSV, Calculator)  
-- Vision-based image understanding (Ollama LLaVA)  
-- FastAPI serving layer  
-- Streamlit UI  
-- Docker + CI/CD pipeline  
+- PDFs  
+- CSV files  
+- Text / Markdown  
+- Images (vision-enabled)
+
+The system combines **retrieval, reasoning, and tool-based execution** using an agent architecture similar to modern enterprise AI systems.
 
 ---
 
-## 🧠 Problem Statement
+## 🧠 Why This Project Matters (Interview Gold)
 
-Build a system that:
+This project demonstrates:
 
-- Handles multimodal data (text + structured + images)  
-- Dynamically routes queries to the correct tool  
-- Provides grounded answers with citations  
-- Supports end-to-end ingestion → retrieval → reasoning  
-- Runs in a production-ready environment  
+- Real-world **agentic AI system design**
+- **Multimodal reasoning** (text + structured + vision)
+- **Production-grade ML engineering**
+- **End-to-end pipeline ownership**
+- **CI/CD + Docker deployment**
+
+You can confidently say:
+
+> “I built a multimodal agentic RAG system with dynamic tool routing, vector retrieval, and production-ready deployment.”
 
 ---
 
@@ -62,6 +64,28 @@ Answer + Sources
 
 ---
 
+## 🧩 Architecture Diagram (Conceptual)
+
+```text
+[User]
+   ↓
+[FastAPI Layer]
+   ↓
+[Agent Router (LangGraph)]
+   ↓
+ ┌──────────────┬──────────────┬──────────────┐
+ |   RAG Tool   |   CSV Tool   | Calculator   |
+ └──────────────┴──────────────┴──────────────┘
+   ↓
+[Vector Store + Embeddings]
+   ↓
+[LLM / Vision Model]
+   ↓
+[Response + Sources]
+```
+
+---
+
 ## ⚙️ Tech Stack
 
 | Layer | Tools |
@@ -81,24 +105,25 @@ Answer + Sources
 ## 🧠 Agent Tools
 
 ### 🔍 RAG Tool
-- Retrieves relevant document chunks
-- Supports PDFs, text, and images
-- Returns answers with sources
+- Retrieves document chunks
+- Supports PDF, text, and image-derived text
+- Returns grounded answers with citations
 
 ### 📊 CSV Tool
-- Data analysis using Pandas
+- Data analysis via Pandas
 - Supports:
-  - Column inspection
+  - Columns
   - Row counts
-  - Summary statistics
+  - Summary stats
   - Aggregations
 
 ### 🧮 Calculator Tool
-- Evaluates numeric expressions safely
+- Safe expression evaluation
+- Handles numeric queries
 
 ---
 
-## 🔁 Agent Routing
+## 🔁 Query Routing
 
 ```text
 User Question → Router → Tool
@@ -145,7 +170,17 @@ docker-compose up --build
 ## 🔁 CI/CD
 
 - GitHub Actions runs tests on every push  
-- Ensures system stability and reproducibility  
+- Ensures reliability and reproducibility  
+
+---
+
+## 📸 UI Preview (Add Screenshot)
+
+Add screenshot here after running Streamlit:
+
+```text
+streamlit run streamlit_app.py
+```
 
 ---
 
@@ -154,8 +189,19 @@ docker-compose up --build
 - Multimodal AI system  
 - Agent-based architecture  
 - Tool-based reasoning  
-- End-to-end pipeline  
+- Real-time API + UI  
 - CI/CD + Dockerized deployment  
+- End-to-end ML system design  
+
+---
+
+## 🚀 Future Improvements
+
+- LLM-based intelligent routing  
+- Multi-step reasoning agents  
+- Hybrid retrieval (BM25 + vector)  
+- Observability & monitoring  
+- Cloud deployment (AWS / GCP)  
 
 ---
 
