@@ -1,5 +1,6 @@
 # 🚀 Multimodal Agentic RAG System (LlamaIndex + LangGraph + FastAPI + Ollama)
 
+![CI](https://github.com/jsrigiri/YOUR_REPO/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.11+-blue)
 ![RAG](https://img.shields.io/badge/RAG-LlamaIndex-orange)
 ![Agents](https://img.shields.io/badge/Agents-LangGraph-red)
@@ -14,49 +15,24 @@
 
 ## 📌 Overview
 
-This project implements a **production-grade multimodal agentic RAG (Retrieval-Augmented Generation) system** capable of answering questions over:
+This project implements a **production-grade multimodal agentic RAG system** capable of answering questions over:
 
 - PDFs  
 - CSV files  
 - Text / Markdown  
 - Images (via vision models)
 
-It combines **retrieval, reasoning, and tool-based decision-making** using an agent architecture.
-
----
-
-## 🧠 Problem Statement
-
-Build a system that:
-
-- Supports multimodal data (text + images + structured data)  
-- Dynamically routes queries to the correct tool  
-- Provides grounded answers with citations  
-- Enables real-time interaction via API and UI  
-- Mimics modern enterprise AI assistant systems  
+It uses an **agent-based architecture** to dynamically route queries to the appropriate tool.
 
 ---
 
 ## 🏗 Architecture
 
-```text
-User Query
-   ↓
-LangGraph Agent Router
-   ↓
-Tool Selection:
-   - RAG Tool (Documents + Images)
-   - CSV Tool (Pandas)
-   - Calculator Tool
-   ↓
-LlamaIndex Retrieval
-   ↓
-ChromaDB Vector Store
-   ↓
-Ollama Vision Model (Images)
-   ↓
-Final Answer + Sources
-```
+User Query → Agent Router → Tool Selection:
+
+- RAG Tool (documents + images)
+- CSV Tool (Pandas)
+- Calculator Tool
 
 ---
 
@@ -72,80 +48,25 @@ Final Answer + Sources
 | Data Tool | Pandas |
 | Vision | Ollama (LLaVA) |
 | Testing | Pytest |
+| CI/CD | GitHub Actions |
 
 ---
 
-## 🧠 Agent Tools
-
-### 🔍 RAG Tool
-- Retrieves relevant chunks from documents
-- Supports PDFs, text, and images
-- Returns answers with sources
-
-### 📊 CSV Tool
-- Uses Pandas for analysis
-- Supports:
-  - Column inspection
-  - Row counts
-  - Summary statistics
-  - Averages
-
-### 🧮 Calculator Tool
-- Parses and evaluates numeric expressions
-- Safe execution environment
-
----
-
-## 🖼 Multimodal Capability
-
-- Image ingestion and indexing  
-- Vision-based summarization using LLaVA  
-- Images become searchable context  
-
----
-
-## 🔁 Query Routing
-
-```text
-User Question → Router → Tool
-
-Examples:
-- "What is this document about?" → RAG
-- "What are the columns?" → CSV Tool
-- "Calculate 1250 * 0.08" → Calculator
-```
-
----
-
-## 🧪 Testing
+## 🧪 Testing & CI
 
 ```bash
 pytest -v
 ```
 
-Includes:
-- Agent routing tests  
-- API tests  
+CI automatically runs on every push via GitHub Actions.
 
 ---
 
 ## ▶️ Run the System
 
-### 1. Install dependencies
-
 ```bash
 pip install -r requirements.txt
-```
-
-### 2. Start API
-
-```bash
 uvicorn app.main:app --reload
-```
-
-### 3. Start UI
-
-```bash
 streamlit run streamlit_app.py
 ```
 
@@ -155,19 +76,8 @@ streamlit run streamlit_app.py
 
 - Multimodal RAG system  
 - Agent-based tool routing  
-- Local vision model integration  
-- Structured answers with citations  
-- End-to-end pipeline (ingestion → retrieval → reasoning → serving)  
-
----
-
-## 📌 Future Improvements
-
-- LLM-based intelligent routing  
-- Multi-step reasoning agents  
-- Hybrid retrieval (BM25 + vector)  
-- Monitoring & observability  
-- Docker + cloud deployment  
+- CI/CD with automated testing  
+- End-to-end pipeline  
 
 ---
 
