@@ -20,7 +20,13 @@ def get_embed_model():
 
 
 def load_existing_index():
-    if not STORAGE_DIR.exists() or not any(STORAGE_DIR.iterdir()):
+    required_files = [
+        STORAGE_DIR / "docstore.json",
+        STORAGE_DIR / "index_store.json",
+        STORAGE_DIR / "vector_store.json",
+    ]
+
+    if not all(path.exists() for path in required_files):
         return None
 
     storage_context = StorageContext.from_defaults(
