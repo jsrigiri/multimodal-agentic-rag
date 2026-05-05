@@ -2,6 +2,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
+import ollama
 
 from app.ingestion.loaders import load_document
 from app.indexing.vector_index import add_text_to_index
@@ -68,4 +69,23 @@ def agent_ask(request: QuestionRequest):
         "route": result["route"],
         "answer": result["answer"],
         "sources": result["sources"],
+    }
+
+
+@app.get("/ollama/test")
+def test_ollama():
+    response = ollama.chat(
+        model="llama3.2",
+        messages=[
+            {
+                "role": "user",
+                "content": "Reply with exactly: Ollama is working",
+            }
+        ],
+    )
+
+    return {
+        "status": "ok",
+        "model": "llama3.2",
+        "response": response["message"]["content"],
     }

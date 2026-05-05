@@ -1,10 +1,12 @@
 import re
+import os
 from typing import Literal, TypedDict
 
 from langgraph.graph import END, StateGraph
 
 from app.rag.query_engine import ask_question
 from app.tools.csv_tool import answer_csv_question
+import ollama
 
 
 class AgentState(TypedDict):
@@ -14,8 +16,8 @@ class AgentState(TypedDict):
     sources: list
 
 
-def route_question(state: AgentState) -> AgentState:
-    question = state["question"].lower()
+def keyword_route_question(question: str) -> str:
+    q = question.lower()
 
     calculator_keywords = [
         "calculate",
@@ -37,13 +39,57 @@ def route_question(state: AgentState) -> AgentState:
         "summary",
     ]
 
-    if any(k in question for k in calculator_keywords):
-        state["route"] = "calculator"
-    elif any(k in question for k in csv_keywords):
-        state["route"] = "csv"
-    else:
-        state["route"] = "rag"
+    if any(k in q for k in calculator_keywords):
+        return "calculator"
 
+    if any(k in q for k in csv_keywords):
+        return "csv"
+
+    return "rag"
+
+
+def llm_route_question(question: str) -> str:
+    if os.getenv("USE_LLM_ROUTER", "false").lower() != "true":
+        return keyword_route_question(question)
+
+    prompt = f"""
+You are a routing classifier for an agentic RAG system.
+
+Choose exactly one route:
+
+- rag: for questions about uploaded PDFs, text files, markdown files, images, documents, or general document understanding
+- csv: for questions about CSV files, tables, columns, rows, dataframe summaries, statistics, or averages
+- calculator: for direct math expressions or calculations
+
+Question:
+{question}
+
+Return only one word: rag, csv, or calculator.
+"""
+
+    try:
+        response = ollama.chat(
+            model="llama3.2",
+            messages=[{"role": "user", "content": prompt}],
+        )
+
+        route = response["message"]["content"].strip().lower()
+
+        if "calculator" in route:
+            return "calculator"
+        if "csv" in route:
+            return "csv"
+        if "rag" in route:
+            return "rag"
+
+    except Exception:
+        pass
+
+    return keyword_route_question(question)
+
+
+def route_question(state: AgentState) -> AgentState:
+    state["route"] = llm_route_question(state["question"])
     return state
 
 
