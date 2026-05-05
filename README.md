@@ -47,7 +47,7 @@ Build a system that:
 ```text
 User Query
    ↓
-LangGraph Agent Router (LLM + Fallback)
+LangGraph Agent Router (LLM + fallback)
    ↓
 Tool Selection
    ├── RAG Tool (LlamaIndex)
@@ -84,20 +84,16 @@ Answer + Sources + Metrics
 ## 🧠 Agent Tools
 
 ### 🔍 RAG Tool
-- Retrieves relevant document chunks
-- Supports PDFs, text, and images
-- Returns grounded answers with citations
+- Retrieves relevant document chunks  
+- Supports PDFs, text, and images  
+- Returns grounded answers with citations  
 
 ### 📊 CSV Tool
-- Data analysis using Pandas
-- Supports:
-  - Columns
-  - Row counts
-  - Summary statistics
-  - Averages
+- Data analysis using Pandas  
+- Supports columns, row counts, statistics, averages  
 
 ### 🧮 Calculator Tool
-- Safe numeric expression evaluation
+- Safe numeric expression evaluation  
 
 ---
 
@@ -106,18 +102,11 @@ Answer + Sources + Metrics
 - Keyword-based fallback routing  
 - LLM-based routing using Ollama (optional)  
 
-```text
-"What are the columns?" → CSV
-"Calculate 1250 * 0.08" → Calculator
-"What does the document say?" → RAG
-```
-
 ---
 
 ## 📊 Observability
 
 Tracks:
-
 - Total requests  
 - Tool usage distribution  
 - Average latency  
@@ -133,7 +122,6 @@ GET /metrics
 ## 🧪 Evaluation (RAG Quality)
 
 Each response includes:
-
 - `has_sources`
 - `answer_length`
 - `relevance_score`
@@ -147,7 +135,6 @@ pytest -v
 ```
 
 Includes:
-
 - API tests  
 - Agent routing tests  
 - Integration test (upload → index → ask)  
@@ -179,6 +166,35 @@ docker-compose up --build
 
 ---
 
+## ⚠️ Deployment Note (Render Memory Requirement)
+
+This project includes a `render.yaml` configuration for deployment.
+
+However:
+
+- **Render free tier (512MB RAM) is NOT sufficient**
+- The system uses memory-intensive components:
+  - LlamaIndex  
+  - ChromaDB  
+  - Sentence Transformers  
+  - Multimodal processing  
+
+These require **≥1GB RAM (recommended 2GB)**.
+
+### Recommended Deployment Options
+
+- Render (paid instance ≥1GB RAM)  
+- Railway / Fly.io  
+- AWS EC2 / ECS  
+
+### Best Option for Demo
+
+```bash
+docker-compose up --build
+```
+
+---
+
 ## 🔥 Key Highlights
 
 - Multimodal AI system  
@@ -187,6 +203,7 @@ docker-compose up --build
 - Observability + evaluation  
 - End-to-end pipeline  
 - CI/CD + Docker deployment  
+- Deployment-aware design  
 
 ---
 
