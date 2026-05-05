@@ -2,6 +2,8 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
+from app.monitoring.metrics import get_metrics
+
 import ollama
 
 from app.ingestion.loaders import load_document
@@ -69,6 +71,8 @@ def agent_ask(request: QuestionRequest):
         "route": result["route"],
         "answer": result["answer"],
         "sources": result["sources"],
+        "latency_ms": result.get("latency_ms"),
+        "evaluation": result.get("evaluation"),
     }
 
 
@@ -89,3 +93,8 @@ def test_ollama():
         "model": "llama3.2",
         "response": response["message"]["content"],
     }
+
+
+@app.get("/metrics")
+def metrics():
+    return get_metrics()

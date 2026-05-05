@@ -1,11 +1,15 @@
 import re
 import os
+import time
 from typing import Literal, TypedDict
 
 from langgraph.graph import END, StateGraph
 
 from app.rag.query_engine import ask_question
 from app.tools.csv_tool import answer_csv_question
+from app.monitoring.metrics import record_request
+from app.evaluation.rag_eval import evaluate_rag
+
 import ollama
 
 
@@ -168,6 +172,8 @@ agent = build_agent()
 
 
 def run_agent(question: str):
+    start = time.time()
+
     result = agent.invoke(
         {
             "question": question,
@@ -177,8 +183,20 @@ def run_agent(question: str):
         }
     )
 
+    latency_ms = (time.time() - start) * 1000
+
+    record_request(result["route"], latency_ms)
+
+    eval_metrics = evaluate_rag(
+        question,
+        result["answer"],
+        result["sources"],
+    )
+
     return {
         "answer": result["answer"],
         "sources": result["sources"],
         "route": result["route"],
+        "latency_ms": round(latency_ms, 2),
+        "evaluation": eval_metrics,
     }
