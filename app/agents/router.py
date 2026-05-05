@@ -9,6 +9,7 @@ from app.rag.query_engine import ask_question
 from app.tools.csv_tool import answer_csv_question
 from app.monitoring.metrics import record_request
 from app.evaluation.rag_eval import evaluate_rag
+from app.config import LLM_MODEL_NAME, USE_LLM_ROUTER
 
 import ollama
 
@@ -53,7 +54,7 @@ def keyword_route_question(question: str) -> str:
 
 
 def llm_route_question(question: str) -> str:
-    if os.getenv("USE_LLM_ROUTER", "false").lower() != "true":
+    if not USE_LLM_ROUTER:
         return keyword_route_question(question)
 
     prompt = f"""
@@ -73,7 +74,7 @@ Return only one word: rag, csv, or calculator.
 
     try:
         response = ollama.chat(
-            model="llama3.2",
+            model=LLM_MODEL_NAME
             messages=[{"role": "user", "content": prompt}],
         )
 

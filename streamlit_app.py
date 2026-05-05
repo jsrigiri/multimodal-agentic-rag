@@ -6,11 +6,11 @@ API_URL = "http://127.0.0.1:8000"
 
 
 st.set_page_config(
-    page_title="Project 6 - Multimodal Agentic RAG",
+    page_title="Multimodal Agentic RAG",
     layout="wide",
 )
 
-st.title("Project 6: Multimodal Agentic RAG")
+st.title("Multimodal Agentic RAG")
 st.write("Upload documents and ask grounded questions with sources.")
 
 

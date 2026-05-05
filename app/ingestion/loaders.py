@@ -5,6 +5,8 @@ import pandas as pd
 from PIL import Image
 import ollama
 
+from app.config import VISION_MODEL_NAME
+
 
 def load_pdf(file_path: str) -> str:
     text_parts = []
@@ -58,7 +60,7 @@ def load_document(file_path: str) -> str:
 
 def load_image(file_path: str) -> str:
     response = ollama.chat(
-        model="llava:7b",
+        model=VISION_MODEL_NAME,
         messages=[
             {
                 "role": "user",

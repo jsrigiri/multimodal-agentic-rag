@@ -1,4 +1,5 @@
 from pathlib import Path
+from app.config import EMBEDDING_MODEL_NAME
 
 STORAGE_DIR = Path("data/storage")
 
@@ -7,7 +8,7 @@ def get_embed_model():
     from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
     return HuggingFaceEmbedding(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
+        model_name=EMBEDDING_MODEL_NAME
     )
 
 
