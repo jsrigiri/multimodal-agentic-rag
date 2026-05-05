@@ -3,7 +3,9 @@ services:
     name: multimodal-agentic-rag
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app.main:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:10000
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port 10000
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
+      - key: USE_LLM_ROUTER
+        value: "false"

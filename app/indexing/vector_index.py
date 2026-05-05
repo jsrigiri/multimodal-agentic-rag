@@ -47,10 +47,7 @@ def add_text_to_index(text: str, source_name: str):
 
     STORAGE_DIR.mkdir(parents=True, exist_ok=True)
 
-    document = Document(
-        text=text,
-        metadata={"source": source_name},
-    )
+    document = Document(text=text, metadata={"source": source_name})
 
     splitter = SentenceSplitter(chunk_size=512, chunk_overlap=50)
     nodes = splitter.get_nodes_from_documents([document])
@@ -58,10 +55,7 @@ def add_text_to_index(text: str, source_name: str):
     index = load_existing_index()
 
     if index is None:
-        index = VectorStoreIndex(
-            nodes,
-            embed_model=get_embed_model(),
-        )
+        index = VectorStoreIndex(nodes, embed_model=get_embed_model())
     else:
         for node in nodes:
             index.insert_nodes([node])
