@@ -1,25 +1,19 @@
 from pathlib import Path
 
-from llama_index.core import (
-    Document,
-    StorageContext,
-    VectorStoreIndex,
-    load_index_from_storage,
-)
-from llama_index.core.node_parser import SentenceSplitter
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-
-
 STORAGE_DIR = Path("data/storage")
 
 
 def get_embed_model():
+    from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+
     return HuggingFaceEmbedding(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
 
 def load_existing_index():
+    from llama_index.core import StorageContext, load_index_from_storage
+
     if not STORAGE_DIR.exists():
         return None
 
@@ -47,7 +41,10 @@ def load_existing_index():
     )
 
 
-def add_text_to_index(text: str, source_name: str) -> VectorStoreIndex:
+def add_text_to_index(text: str, source_name: str):
+    from llama_index.core import Document, VectorStoreIndex
+    from llama_index.core.node_parser import SentenceSplitter
+
     STORAGE_DIR.mkdir(parents=True, exist_ok=True)
 
     document = Document(
