@@ -16,30 +16,29 @@
 
 ## 📌 Overview
 
-This project implements a **production-grade multimodal agentic RAG platform** capable of answering questions over:
+This project implements a **production-grade multimodal agentic RAG platform** combining:
 
-- PDFs  
-- CSV files  
-- Text / Markdown  
-- Images (vision-enabled)
-
-The system combines **retrieval, reasoning, and tool-based execution** using an agent architecture similar to modern enterprise AI systems.
+- Document ingestion (PDF, CSV, TXT, Images)  
+- LlamaIndex-based retrieval pipeline  
+- LangGraph agent routing system (LLM + fallback)  
+- Multi-tool execution (RAG, CSV, Calculator)  
+- Vision-based image understanding (Ollama LLaVA)  
+- FastAPI serving layer  
+- Streamlit UI  
+- Docker + CI/CD  
+- Observability + evaluation metrics  
 
 ---
 
-## 🧠 Why This Project Matters (Interview Gold)
+## 🧠 Problem Statement
 
-This project demonstrates:
+Build a system that:
 
-- Real-world **agentic AI system design**
-- **Multimodal reasoning** (text + structured + vision)
-- **Production-grade ML engineering**
-- **End-to-end pipeline ownership**
-- **CI/CD + Docker deployment**
-
-You can confidently say:
-
-> “I built a multimodal agentic RAG system with dynamic tool routing, vector retrieval, and production-ready deployment.”
+- Handles multimodal data (text + structured + images)  
+- Dynamically routes queries using intelligent agents  
+- Provides grounded answers with citations  
+- Tracks performance (latency, usage, quality)  
+- Runs as a production-ready service  
 
 ---
 
@@ -48,7 +47,7 @@ You can confidently say:
 ```text
 User Query
    ↓
-LangGraph Agent Router
+LangGraph Agent Router (LLM + Fallback)
    ↓
 Tool Selection
    ├── RAG Tool (LlamaIndex)
@@ -59,29 +58,7 @@ Vector Retrieval (ChromaDB)
    ↓
 Vision Processing (Ollama LLaVA)
    ↓
-Answer + Sources
-```
-
----
-
-## 🧩 Architecture Diagram (Conceptual)
-
-```text
-[User]
-   ↓
-[FastAPI Layer]
-   ↓
-[Agent Router (LangGraph)]
-   ↓
- ┌──────────────┬──────────────┬──────────────┐
- |   RAG Tool   |   CSV Tool   | Calculator   |
- └──────────────┴──────────────┴──────────────┘
-   ↓
-[Vector Store + Embeddings]
-   ↓
-[LLM / Vision Model]
-   ↓
-[Response + Sources]
+Answer + Sources + Metrics
 ```
 
 ---
@@ -97,6 +74,8 @@ Answer + Sources
 | Vector DB | ChromaDB |
 | Data Tool | Pandas |
 | Vision | Ollama (LLaVA) |
+| Monitoring | Custom metrics |
+| Evaluation | RAG scoring |
 | Testing | Pytest |
 | DevOps | Docker, GitHub Actions |
 
@@ -105,34 +84,59 @@ Answer + Sources
 ## 🧠 Agent Tools
 
 ### 🔍 RAG Tool
-- Retrieves document chunks
-- Supports PDF, text, and image-derived text
+- Retrieves relevant document chunks
+- Supports PDFs, text, and images
 - Returns grounded answers with citations
 
 ### 📊 CSV Tool
-- Data analysis via Pandas
+- Data analysis using Pandas
 - Supports:
   - Columns
   - Row counts
-  - Summary stats
-  - Aggregations
+  - Summary statistics
+  - Averages
 
 ### 🧮 Calculator Tool
-- Safe expression evaluation
-- Handles numeric queries
+- Safe numeric expression evaluation
 
 ---
 
-## 🔁 Query Routing
+## 🔁 Intelligent Routing
+
+- Keyword-based fallback routing  
+- LLM-based routing using Ollama (optional)  
 
 ```text
-User Question → Router → Tool
-
-Examples:
-- "What is this document about?" → RAG
-- "What are the columns?" → CSV Tool
-- "Calculate 1250 * 0.08" → Calculator
+"What are the columns?" → CSV
+"Calculate 1250 * 0.08" → Calculator
+"What does the document say?" → RAG
 ```
+
+---
+
+## 📊 Observability
+
+Tracks:
+
+- Total requests  
+- Tool usage distribution  
+- Average latency  
+
+Endpoint:
+
+```bash
+GET /metrics
+```
+
+---
+
+## 🧪 Evaluation (RAG Quality)
+
+Each response includes:
+
+- `has_sources`
+- `answer_length`
+- `relevance_score`
 
 ---
 
@@ -143,6 +147,7 @@ pytest -v
 ```
 
 Includes:
+
 - API tests  
 - Agent routing tests  
 - Integration test (upload → index → ask)  
@@ -170,17 +175,7 @@ docker-compose up --build
 ## 🔁 CI/CD
 
 - GitHub Actions runs tests on every push  
-- Ensures reliability and reproducibility  
-
----
-
-## 📸 UI Preview (Add Screenshot)
-
-Add screenshot here after running Streamlit:
-
-```text
-streamlit run streamlit_app.py
-```
+- Ensures stability and reproducibility  
 
 ---
 
@@ -188,20 +183,10 @@ streamlit run streamlit_app.py
 
 - Multimodal AI system  
 - Agent-based architecture  
-- Tool-based reasoning  
-- Real-time API + UI  
-- CI/CD + Dockerized deployment  
-- End-to-end ML system design  
-
----
-
-## 🚀 Future Improvements
-
-- LLM-based intelligent routing  
-- Multi-step reasoning agents  
-- Hybrid retrieval (BM25 + vector)  
-- Observability & monitoring  
-- Cloud deployment (AWS / GCP)  
+- LLM + rule-based routing  
+- Observability + evaluation  
+- End-to-end pipeline  
+- CI/CD + Docker deployment  
 
 ---
 
